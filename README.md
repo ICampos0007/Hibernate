@@ -1,0 +1,1 @@
+Testing JDBC with hibernate.
