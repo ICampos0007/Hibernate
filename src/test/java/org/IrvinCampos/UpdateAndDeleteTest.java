@@ -62,12 +62,14 @@ public class UpdateAndDeleteTest {
     public void deleteAlienTest(){
         Alien alien = new Alien();
 
-        SessionFactory sessionFactory = new Configuration().addAnnotatedClass(Alien.class)
+        SessionFactory sessionFactory = new Configuration()
+                .addAnnotatedClass(Alien.class)
+                .addAnnotatedClass(Laptop.class)
                 .configure()
                 .buildSessionFactory();
 
         Session session = sessionFactory.openSession();
-        alien = session.find(org.IrvinCampos.Alien.class,1);
+        alien = session.find(org.IrvinCampos.Alien.class,101);
 
         Transaction transaction = session.beginTransaction();
 

@@ -1,17 +1,31 @@
 package org.IrvinCampos;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
-//@Table(name = "alien_table") //changes table name
 public class Alien {
+
     @Id
     private int aid;
-    //@Column(name = "alien_name") //changes column name
+
     private String aname;
-    //@Transient //deletes/ignores this
+
     private String tech;
-    private Laptop laptop;
+
+    // One Alien can have many Laptops
+    // 'mappedBy = "alien"' tells Hibernate that Laptop owns the foreign key
+    @OneToMany(mappedBy = "alien", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Laptop> laptops;
+
+    // --- Getters and Setters ---
+    public int getAid() {
+        return aid;
+    }
+
+    public void setAid(int aid) {
+        this.aid = aid;
+    }
 
     public String getAname() {
         return aname;
@@ -19,14 +33,6 @@ public class Alien {
 
     public void setAname(String aname) {
         this.aname = aname;
-    }
-
-    public int getAid() {
-        return aid;
-    }
-
-    public void setAid(int aid) {
-        this.aid = aid;
     }
 
     public String getTech() {
@@ -37,11 +43,28 @@ public class Alien {
         this.tech = tech;
     }
 
-    public Laptop getLaptop() {
-        return laptop;
+    public List<Laptop> getLaptops() {
+        return laptops;
     }
 
-    public void setLaptop(Laptop laptop) {
-        this.laptop = laptop;
+    public void setLaptops(List<Laptop> laptops) {
+        this.laptops = laptops;
+        // Ensure bidirectional relationship stays consistent
+        if (laptops != null) {
+            for (Laptop laptop : laptops) {
+                laptop.setAlien(this);
+            }
+        }
+    }
+
+    // --- Optional: toString for debugging ---
+    @Override
+    public String toString() {
+        return "Alien{" +
+                "aid=" + aid +
+                ", aname='" + aname + '\'' +
+                ", tech='" + tech + '\'' +
+                ", laptops=" + laptops +
+                '}';
     }
 }

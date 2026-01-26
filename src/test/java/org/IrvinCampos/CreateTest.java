@@ -6,6 +6,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class CreateTest {
     @Test(enabled = false)
     public void createStudentTest() {
@@ -33,30 +35,40 @@ public class CreateTest {
 
     @Test
     public void CreateAlienTest() {
+        Alien alien = new Alien();
+        alien.setAid(3);
+        alien.setAname("Esquie");
+        alien.setTech("Java");
 
         Laptop laptop = new Laptop();
+        laptop.setLid(3);
         laptop.setBrand("ASUS");
         laptop.setModel("ROG");
         laptop.setRam(32);
 
-        Alien alien = new Alien();
-        alien.setAid(1);
-        alien.setAname("Naburishidi");
-        alien.setTech("Java");
-        alien.setLaptop(laptop);
+        Laptop laptop2 = new Laptop();
+        laptop2.setLid(4);
+        laptop2.setBrand("DELL");
+        laptop2.setModel("XPS");
+        laptop2.setRam(32);
 
-        SessionFactory sessionFactory = new Configuration().addAnnotatedClass(Alien.class)
+        alien.setLaptops(List.of(laptop,laptop2));
+
+        SessionFactory sessionFactory = new Configuration()
+                .addAnnotatedClass(Alien.class)
+                .addAnnotatedClass(Laptop.class)
                 .configure()
                 .buildSessionFactory();
 
         Session session = sessionFactory.openSession();
-
         Transaction transaction = session.beginTransaction();
 
-        session.persist(alien);
-        transaction.commit();
+        session.persist(alien); // cascading saves laptops
 
+        transaction.commit();
         session.close();
         sessionFactory.close();
     }
+
+
 }
