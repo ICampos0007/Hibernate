@@ -15,7 +15,8 @@ public class Alien {
 
     // One Alien can have many Laptops
     // 'mappedBy = "alien"' tells Hibernate that Laptop owns the foreign key
-    @OneToMany(mappedBy = "alien", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@OneToMany(mappedBy = "alien", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
     private List<Laptop> laptops;
 
     // --- Getters and Setters ---
@@ -49,12 +50,6 @@ public class Alien {
 
     public void setLaptops(List<Laptop> laptops) {
         this.laptops = laptops;
-        // Ensure bidirectional relationship stays consistent
-        if (laptops != null) {
-            for (Laptop laptop : laptops) {
-                laptop.setAlien(this);
-            }
-        }
     }
 
     // --- Optional: toString for debugging ---

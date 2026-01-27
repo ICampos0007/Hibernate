@@ -2,6 +2,8 @@ package org.IrvinCampos;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Laptop {
 
@@ -13,9 +15,10 @@ public class Laptop {
     private int ram;
 
     // Many laptops belong to one Alien
-    @ManyToOne
+    //@ManyToOne
 //    @JoinColumn(name = "alien_id") // foreign key column
-    private Alien alien;
+    @ManyToMany(mappedBy = "laptops")
+    private List<Alien> aliens;
 
     // --- Getters and Setters ---
     public int getLid() {
@@ -50,19 +53,17 @@ public class Laptop {
         this.ram = ram;
     }
 
-    public Alien getAlien() {
-        return alien;
+    public List<Alien> getAliens() {
+        return aliens;
     }
 
-    public void setAlien(Alien alien) {
-        this.alien = alien;
-        // Keep bidirectional relationship in sync
-        if (alien != null && !alien.getLaptops().contains(this)) {
-            alien.getLaptops().add(this);
-        }
+    public void setAliens(List<Alien> aliens) {
+        this.aliens = aliens;
     }
 
     // --- toString for debugging ---
+
+
     @Override
     public String toString() {
         return "Laptop{" +
@@ -70,6 +71,7 @@ public class Laptop {
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", ram=" + ram +
+                ", aliens=" + aliens +
                 '}';
     }
 }
