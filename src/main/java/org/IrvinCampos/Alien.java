@@ -59,7 +59,6 @@ public class Alien {
                 "aid=" + aid +
                 ", aname='" + aname + '\'' +
                 ", tech='" + tech + '\'' +
-                ", laptops=" + laptops +
                 '}';
     }
 }

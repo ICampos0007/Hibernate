@@ -69,9 +69,7 @@ public class Laptop {
         return "Laptop{" +
                 "lid=" + lid +
                 ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
                 ", ram=" + ram +
-                ", aliens=" + aliens +
                 '}';
     }
 }
